@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, useReducedMotion, type Variants } from 'framer-motion'
 import { ArrowRight, ChevronDown } from 'lucide-react'
-import { useState, type ReactNode } from 'react'
-import CountUp from 'react-countup'
+import { useRef, useState, type ReactNode } from 'react'
+import { useCountUp } from 'react-countup'
 import { Link, type LinkProps } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
 
@@ -217,17 +217,50 @@ export function AnimatedNumber({
   }
 
   return (
-    <CountUp
+    <CountUpNumber
       className={className}
       start={end === 0 ? 7 : 0}
       end={end}
       duration={duration}
-      useEasing
-      enableScrollSpy
-      scrollSpyOnce
       scrollSpyDelay={Math.round(delay * 1000)}
       formattingFn={format}
     />
+  )
+}
+
+function CountUpNumber({
+  className,
+  start,
+  end,
+  duration,
+  scrollSpyDelay,
+  formattingFn,
+}: {
+  className?: string
+  start: number
+  end: number
+  duration: number
+  scrollSpyDelay: number
+  formattingFn: (value: number) => string
+}) {
+  const countUpRef = useRef<HTMLSpanElement>(null!)
+
+  useCountUp({
+    ref: countUpRef,
+    start,
+    end,
+    duration,
+    useEasing: true,
+    enableScrollSpy: true,
+    scrollSpyOnce: true,
+    scrollSpyDelay,
+    formattingFn,
+  })
+
+  return (
+    <span className={className} ref={countUpRef}>
+      {formattingFn(start)}
+    </span>
   )
 }
 
