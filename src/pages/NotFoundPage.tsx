@@ -1,4 +1,10 @@
-import { ButtonLink, Container, Eyebrow, Reveal } from '../components/Primitives'
+import {
+  AnimatedNumber,
+  ButtonLink,
+  Container,
+  Eyebrow,
+  Reveal,
+} from '../components/Primitives'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 export function NotFoundPage({ embedded = false }: { embedded?: boolean }) {
@@ -12,7 +18,9 @@ export function NotFoundPage({ embedded = false }: { embedded?: boolean }) {
       <Container>
         <div className="not-found-grid">
           <Reveal className="not-found-copy">
-            <Eyebrow>ERROR 404 • UNMAPPED CORRIDOR</Eyebrow>
+            <Eyebrow>
+              ERROR <AnimatedNumber end={404} /> • UNMAPPED CORRIDOR
+            </Eyebrow>
             <h1>This passage leads nowhere.</h1>
             <p>The archivist insists this corridor existed yesterday. The map disagrees.</p>
             <div className="hero-actions">

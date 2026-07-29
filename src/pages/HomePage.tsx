@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ChampionCard, CampaignCard } from '../components/Cards'
 import {
   Accordion,
+  AnimatedNumber,
   ButtonLink,
   Container,
   Doctrine,
@@ -10,6 +11,8 @@ import {
   Reveal,
   Section,
   SectionHeading,
+  StaggerGroup,
+  StaggerItem,
 } from '../components/Primitives'
 import {
   campaigns,
@@ -103,37 +106,49 @@ export function HomePage() {
         </picture>
         <div className="home-hero-scrim" />
         <Container className="home-hero-inner">
-          <Reveal className="home-hero-copy">
-            <Eyebrow>FAMILY LAW FOR UNHAPPILY EVER AFTER</Eyebrow>
-            <h1>
-              Your marriage had a beginning. <em>We specialize in the end.</em>
-            </h1>
-            <p className="home-hero-lede">
-              Divorce is already dramatic. Your legal strategy does not have to be. Divorce
-              Dungeon brings calm planning, clear communication, and formidable paperwork to the
-              campaign ahead.
-            </p>
-            <div className="hero-actions">
-              <ButtonLink to="/summon-counsel">Summon Counsel</ButtonLink>
-              <ButtonLink to="/campaigns" variant="secondary">
-                Explore the Campaigns
-              </ButtonLink>
-            </div>
-            <div className="assurance-line">
-              <Check aria-hidden="true" />
-              <span>No dragons. No judgment. Some paperwork.</span>
-            </div>
-            <div className="hero-badges" aria-label="Available campaign areas">
-              {['Divorce Strategy', 'Parenting Plans', 'Asset Division', 'Mediation'].map(
-                (badge) => (
-                  <span key={badge}>{badge}</span>
-                ),
-              )}
-            </div>
-          </Reveal>
-          <div className="hero-note">
+          <StaggerGroup className="home-hero-copy" amount={0.08} delay={0.08}>
+            <StaggerItem>
+              <Eyebrow>FAMILY LAW FOR UNHAPPILY EVER AFTER</Eyebrow>
+            </StaggerItem>
+            <StaggerItem>
+              <h1>
+                Your marriage had a beginning. <em>We specialize in the end.</em>
+              </h1>
+            </StaggerItem>
+            <StaggerItem>
+              <p className="home-hero-lede">
+                Divorce is already dramatic. Your legal strategy does not have to be. Divorce
+                Dungeon brings calm planning, clear communication, and formidable paperwork to
+                the campaign ahead.
+              </p>
+            </StaggerItem>
+            <StaggerItem>
+              <div className="hero-actions">
+                <ButtonLink to="/summon-counsel">Summon Counsel</ButtonLink>
+                <ButtonLink to="/campaigns" variant="secondary">
+                  Explore the Campaigns
+                </ButtonLink>
+              </div>
+            </StaggerItem>
+            <StaggerItem>
+              <div className="assurance-line">
+                <Check aria-hidden="true" />
+                <span>No dragons. No judgment. Some paperwork.</span>
+              </div>
+            </StaggerItem>
+            <StaggerItem>
+              <div className="hero-badges" aria-label="Available campaign areas">
+                {['Divorce Strategy', 'Parenting Plans', 'Asset Division', 'Mediation'].map(
+                  (badge) => (
+                    <span key={badge}>{badge}</span>
+                  ),
+                )}
+              </div>
+            </StaggerItem>
+          </StaggerGroup>
+          <Reveal className="hero-note" delay={0.55}>
             <span aria-hidden="true">✦</span> The armor is metaphorical. The preparation is not.
-          </div>
+          </Reveal>
         </Container>
       </section>
 
@@ -149,13 +164,15 @@ export function HomePage() {
         />
         <div className="stats-grid">
           {[
-            ['1,284', 'Metaphorical drawbridges lowered'],
-            ['0', 'Trial-by-combat requests approved by counsel'],
-            ['47', 'Houseplants assigned to sunlight-capable homes'],
-            ['100%', 'Of exes referred to by their legal names in court'],
-          ].map(([value, label], index) => (
+            { end: 1284, label: 'Metaphorical drawbridges lowered' },
+            { end: 0, label: 'Trial-by-combat requests approved by counsel' },
+            { end: 47, label: 'Houseplants assigned to sunlight-capable homes' },
+            { end: 100, suffix: '%', label: 'Of exes referred to by their legal names in court' },
+          ].map(({ end, suffix, label }, index) => (
             <Reveal key={label} className="stat-card" delay={index * 0.06}>
-              <strong>{value}</strong>
+              <strong>
+                <AnimatedNumber end={end} suffix={suffix} delay={index * 0.08} />
+              </strong>
               <span>{label}</span>
             </Reveal>
           ))}
@@ -200,7 +217,12 @@ export function HomePage() {
           {processSteps.map((step, index) => (
             <Reveal key={step.number} className="process-step" delay={index * 0.08}>
               <li>
-                <span className="process-number">{step.number}</span>
+                <AnimatedNumber
+                  className="process-number"
+                  end={Number(step.number)}
+                  pad={2}
+                  delay={index * 0.07}
+                />
                 <p className="card-kicker">{step.label}</p>
                 <h3>{step.title}</h3>
                 <p>{step.copy}</p>
@@ -324,7 +346,7 @@ export function HomePage() {
 
       <section className="final-cta">
         <Container>
-          <div className="final-cta-panel">
+          <Reveal className="final-cta-panel">
             <div className="seal-motif" aria-hidden="true">
               DD
             </div>
@@ -346,7 +368,7 @@ export function HomePage() {
               This is a fictional portfolio experience. Please consult a licensed attorney for
               actual legal advice.
             </small>
-          </div>
+          </Reveal>
         </Container>
       </section>
     </>

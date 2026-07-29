@@ -89,13 +89,13 @@ export function ChampionsPage() {
       </Section>
 
       <section className="compact-cta">
-        <div className="mx-auto flex w-full max-w-[1240px] flex-col items-start justify-between gap-7 px-5 sm:px-7 md:flex-row md:items-center lg:px-10">
+        <Reveal className="mx-auto flex w-full max-w-[1240px] flex-col items-start justify-between gap-7 px-5 sm:px-7 md:flex-row md:items-center lg:px-10">
           <div>
             <p className="eyebrow">THE COUNCIL TABLE IS SET</p>
             <h2>Choose the champion who fits the campaign.</h2>
           </div>
           <ButtonLink to="/summon-counsel">Summon Counsel</ButtonLink>
-        </div>
+        </Reveal>
       </section>
     </>
   )

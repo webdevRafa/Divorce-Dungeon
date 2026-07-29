@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react'
+import { MotionConfig } from 'framer-motion'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { SiteLayout } from './components/SiteLayout'
 
@@ -52,24 +53,26 @@ function RouteLoader() {
 }
 export default function App() {
   return (
-    <BrowserRouter>
-      <Suspense fallback={<RouteLoader />}>
-        <Routes>
-          <Route element={<SiteLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="campaigns" element={<CampaignsPage />} />
-            <Route path="campaigns/:campaignSlug" element={<CampaignDetailPage />} />
-            <Route path="champions" element={<ChampionsPage />} />
-            <Route path="champions/:championSlug" element={<ChampionDetailPage />} />
-            <Route path="victories" element={<VictoriesPage />} />
-            <Route path="war-room" element={<WarRoomPage />} />
-            <Route path="summon-counsel" element={<SummonCounselPage />} />
-            <Route path="privacy" element={<PrivacyPage />} />
-            <Route path="terms" element={<TermsPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+    <MotionConfig reducedMotion="user">
+      <BrowserRouter>
+        <Suspense fallback={<RouteLoader />}>
+          <Routes>
+            <Route element={<SiteLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path="campaigns" element={<CampaignsPage />} />
+              <Route path="campaigns/:campaignSlug" element={<CampaignDetailPage />} />
+              <Route path="champions" element={<ChampionsPage />} />
+              <Route path="champions/:championSlug" element={<ChampionDetailPage />} />
+              <Route path="victories" element={<VictoriesPage />} />
+              <Route path="war-room" element={<WarRoomPage />} />
+              <Route path="summon-counsel" element={<SummonCounselPage />} />
+              <Route path="privacy" element={<PrivacyPage />} />
+              <Route path="terms" element={<TermsPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </MotionConfig>
   )
 }

@@ -1,4 +1,4 @@
-import { Container, Eyebrow } from '../components/Primitives'
+import { Container, Eyebrow, Reveal } from '../components/Primitives'
 import { usePageMeta } from '../hooks/usePageMeta'
 import type { ReactNode } from 'react'
 
@@ -105,12 +105,14 @@ function LegalShell({
   return (
     <section className="legal-page">
       <Container>
-        <header>
-          <Eyebrow>{eyebrow}</Eyebrow>
-          <h1>{title}</h1>
-          <p className="legal-date">Last updated: July 29, 2026</p>
-          <p className="legal-intro">{intro}</p>
-        </header>
+        <Reveal>
+          <header>
+            <Eyebrow>{eyebrow}</Eyebrow>
+            <h1>{title}</h1>
+            <p className="legal-date">Last updated: July 29, 2026</p>
+            <p className="legal-intro">{intro}</p>
+          </header>
+        </Reveal>
         <div className="legal-content">{children}</div>
       </Container>
     </section>
@@ -131,12 +133,14 @@ export function PrivacyPage() {
       intro="Divorce Dungeon is a fictional portfolio website. This privacy page explains the intended behavior of the demonstration template and should not be treated as a complete privacy policy for a real business."
     >
       {privacySections.map((section) => (
-        <section key={section.title}>
-          <h2>{section.title}</h2>
-          {section.paragraphs.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </section>
+        <Reveal key={section.title}>
+          <section>
+            <h2>{section.title}</h2>
+            {section.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </section>
+        </Reveal>
       ))}
     </LegalShell>
   )
@@ -155,10 +159,12 @@ export function TermsPage() {
       intro="These terms describe the fictional and demonstrative nature of Divorce Dungeon. No legal service is offered beyond this gate."
     >
       {termsSections.map((section) => (
-        <section key={section.title}>
-          <h2>{section.title}</h2>
-          <p>{section.text}</p>
-        </section>
+        <Reveal key={section.title}>
+          <section>
+            <h2>{section.title}</h2>
+            <p>{section.text}</p>
+          </section>
+        </Reveal>
       ))}
     </LegalShell>
   )

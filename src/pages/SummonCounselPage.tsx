@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { CalendarClock, CheckCircle2, MapPin, ShieldAlert } from 'lucide-react'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import { ButtonLink, Eyebrow, PageHero, Section } from '../components/Primitives'
+import { ButtonLink, Eyebrow, PageHero, Reveal, Section } from '../components/Primitives'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 type Errors = Partial<Record<'name' | 'email' | 'region' | 'campaign' | 'message' | 'consent', string>>
@@ -81,7 +81,7 @@ export function SummonCounselPage() {
 
       <Section className="contact-section">
         <div className="contact-grid">
-          <div className="contact-form-shell">
+          <Reveal className="contact-form-shell">
             <AnimatePresence mode="wait">
               {success ? (
                 <motion.div
@@ -249,18 +249,18 @@ export function SummonCounselPage() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </Reveal>
 
           <aside className="contact-aside">
-            <div className="raven-art">
+            <Reveal className="raven-art" delay={0.08}>
               <img
                 src="/assets/illustrations/summon-counsel-raven-desk.webp"
                 alt="A calm black raven beside a sealed envelope on an archive desk"
                 width="819"
                 height="1024"
               />
-            </div>
-            <div className="contact-aside-copy">
+            </Reveal>
+            <Reveal className="contact-aside-copy" delay={0.14}>
               <Eyebrow>BEFORE THE WAR COUNCIL</Eyebrow>
               <ul>
                 {[
@@ -298,7 +298,7 @@ export function SummonCounselPage() {
                   <small>Fictional address</small>
                 </p>
               </div>
-            </div>
+            </Reveal>
           </aside>
         </div>
       </Section>

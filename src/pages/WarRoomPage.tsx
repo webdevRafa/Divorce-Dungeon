@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import {
   Accordion,
+  AnimatedNumber,
   ButtonLink,
   PageHero,
   Reveal,
@@ -48,7 +49,9 @@ export function WarRoomPage() {
         <Reveal className="featured-resource">
           <div className="featured-resource-mark">
             <ScrollText aria-hidden="true" />
-            <span>FIELD GUIDE 01</span>
+            <span>
+              FIELD GUIDE <AnimatedNumber end={1} pad={2} />
+            </span>
           </div>
           <div>
             <p className="eyebrow">FIELD GUIDE</p>
@@ -105,14 +108,14 @@ export function WarRoomPage() {
       </Section>
 
       <section className="compact-cta">
-        <div className="mx-auto flex w-full max-w-[1240px] flex-col items-start justify-between gap-7 px-5 sm:px-7 md:flex-row md:items-center lg:px-10">
+        <Reveal className="mx-auto flex w-full max-w-[1240px] flex-col items-start justify-between gap-7 px-5 sm:px-7 md:flex-row md:items-center lg:px-10">
           <SectionHeading
             eyebrow="ARCHIVIST ASSISTANCE"
             title="Still lost in the archive?"
             intro="That is why the fictional champions carry maps."
           />
           <ButtonLink to="/summon-counsel">Summon Counsel</ButtonLink>
-        </div>
+        </Reveal>
       </section>
     </>
   )

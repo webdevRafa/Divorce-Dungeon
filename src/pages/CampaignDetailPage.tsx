@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { ChampionCard } from '../components/Cards'
 import {
   Accordion,
+  AnimatedNumber,
   ButtonLink,
   Doctrine,
   PageHero,
@@ -59,7 +60,10 @@ export function CampaignDetailPage() {
         description={campaign.summary}
         aside={
           <div>
-            <span className="map-coordinate">CAMPAIGN NO. {campaigns.indexOf(campaign) + 1}</span>
+            <span className="map-coordinate">
+              CAMPAIGN NO.{' '}
+              <AnimatedNumber end={campaigns.indexOf(campaign) + 1} pad={2} />
+            </span>
             <Doctrine>{campaign.doctrine}</Doctrine>
           </div>
         }
@@ -106,7 +110,12 @@ export function CampaignDetailPage() {
           {detailSteps.map(([number, title, copy], index) => (
             <Reveal key={number} className="process-step" delay={index * 0.07}>
               <li>
-                <span className="process-number">{number}</span>
+                <AnimatedNumber
+                  className="process-number"
+                  end={Number(number)}
+                  pad={2}
+                  delay={index * 0.07}
+                />
                 <h3>{title}</h3>
                 <p>{copy}</p>
               </li>
@@ -137,7 +146,7 @@ export function CampaignDetailPage() {
 
       <section className="final-cta">
         <div className="mx-auto w-full max-w-[1240px] px-5 sm:px-7 lg:px-10">
-          <div className="final-cta-panel">
+          <Reveal className="final-cta-panel">
             <p className="eyebrow">THE MAP IS OPEN</p>
             <h2>{campaign.cta}.</h2>
             <p>
@@ -147,7 +156,7 @@ export function CampaignDetailPage() {
             <small>
               Fictional parody content only. No legal advice or attorney-client relationship.
             </small>
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

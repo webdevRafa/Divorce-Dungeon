@@ -8,7 +8,7 @@ import {
   useLocation,
   useNavigationType,
 } from 'react-router-dom'
-import { ButtonLink, Container } from './Primitives'
+import { ButtonLink, Container, Reveal } from './Primitives'
 
 const navigation = [
   { label: 'Campaigns', to: '/campaigns' },
@@ -107,9 +107,6 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
                 Summon Counsel
               </ButtonLink>
             </nav>
-            <p className="mobile-menu-note">
-              A satirical portfolio concept. Not a real law firm.
-            </p>
           </motion.div>
         </motion.div>
       )}
@@ -159,9 +156,6 @@ export function SiteLayout() {
         Skip the dungeon entrance
       </a>
       <motion.div className="scroll-progress" style={{ scaleX }} aria-hidden="true" />
-      <div className="parody-strip">
-        <strong>A satirical portfolio concept.</strong> Divorce Dungeon is not a real law firm.
-      </div>
       <header className={scrolled ? 'site-header is-scrolled' : 'site-header'}>
         <Container className="header-inner">
           <Logo />
@@ -203,7 +197,7 @@ export function SiteLayout() {
       </main>
       <footer className="site-footer">
         <Container>
-          <div className="footer-grid">
+          <Reveal className="footer-grid">
             <div className="footer-brand">
               <Logo />
               <p>
@@ -226,11 +220,11 @@ export function SiteLayout() {
               <Link to="/terms">Terms</Link>
               <Link to="/">Return to the Keep</Link>
             </div>
-          </div>
-          <div className="footer-bottom">
+          </Reveal>
+          <Reveal className="footer-bottom" delay={0.12}>
             <p>© 2026 Divorce Dungeon. All kingdoms separately maintained.</p>
             <p>Built with strategy, parchment, and an unreasonable number of labeled folders.</p>
-          </div>
+          </Reveal>
         </Container>
       </footer>
     </>

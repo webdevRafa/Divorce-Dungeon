@@ -1,8 +1,19 @@
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion, type Variants } from 'framer-motion'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
+import CountUp from 'react-countup'
 import { Link, type LinkProps } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
+
+const revealItem: Variants = {
+  hidden: { opacity: 0, y: 22, filter: 'blur(5px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.62, ease: [0.16, 1, 0.3, 1] },
+  },
+}
 
 export function Container({
   children,
@@ -49,12 +60,31 @@ export function SectionHeading({
   intro?: ReactNode
   align?: 'left' | 'center'
 }) {
+  const reduceMotion = useReducedMotion()
+
   return (
-    <div className={twMerge('section-heading', align === 'center' && 'mx-auto text-center')}>
-      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-      <h2>{title}</h2>
-      {intro && <p className="section-intro">{intro}</p>}
-    </div>
+    <motion.div
+      className={twMerge('section-heading', align === 'center' && 'mx-auto text-center')}
+      initial={reduceMotion ? false : 'hidden'}
+      whileInView={reduceMotion ? undefined : 'visible'}
+      viewport={{ once: true, amount: 0.35 }}
+      variants={{
+        hidden: {},
+        visible: { transition: { staggerChildren: 0.09 } },
+      }}
+    >
+      {eyebrow && (
+        <motion.p className="eyebrow" variants={revealItem}>
+          {eyebrow}
+        </motion.p>
+      )}
+      <motion.h2 variants={revealItem}>{title}</motion.h2>
+      {intro && (
+        <motion.p className="section-intro" variants={revealItem}>
+          {intro}
+        </motion.p>
+      )}
+    </motion.div>
   )
 }
 
@@ -101,13 +131,103 @@ export function Reveal({
   return (
     <motion.div
       className={className}
-      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 26, scale: 0.992 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.16 }}
       transition={{ duration: 0.62, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
+  )
+}
+
+export function StaggerGroup({
+  children,
+  className,
+  delay = 0,
+  amount = 0.24,
+}: {
+  children: ReactNode
+  className?: string
+  delay?: number
+  amount?: number
+}) {
+  const reduceMotion = useReducedMotion()
+
+  return (
+    <motion.div
+      className={className}
+      initial={reduceMotion ? false : 'hidden'}
+      whileInView={reduceMotion ? undefined : 'visible'}
+      viewport={{ once: true, amount }}
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            delayChildren: delay,
+            staggerChildren: 0.085,
+          },
+        },
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+export function StaggerItem({
+  children,
+  className,
+}: {
+  children: ReactNode
+  className?: string
+}) {
+  return (
+    <motion.div className={className} variants={revealItem}>
+      {children}
+    </motion.div>
+  )
+}
+
+export function AnimatedNumber({
+  end,
+  className,
+  suffix = '',
+  prefix = '',
+  pad = 0,
+  duration = 1.8,
+  delay = 0,
+}: {
+  end: number
+  className?: string
+  suffix?: string
+  prefix?: string
+  pad?: number
+  duration?: number
+  delay?: number
+}) {
+  const reduceMotion = useReducedMotion()
+  const format = (value: number) => {
+    const number = pad ? String(Math.round(value)).padStart(pad, '0') : Math.round(value).toLocaleString()
+    return `${prefix}${number}${suffix}`
+  }
+
+  if (reduceMotion) {
+    return <span className={className}>{format(end)}</span>
+  }
+
+  return (
+    <CountUp
+      className={className}
+      start={end === 0 ? 7 : 0}
+      end={end}
+      duration={duration}
+      useEasing
+      enableScrollSpy
+      scrollSpyOnce
+      scrollSpyDelay={Math.round(delay * 1000)}
+      formattingFn={format}
+    />
   )
 }
 
@@ -117,6 +237,7 @@ export function Accordion({
   items: { question: string; answer: string }[]
 }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const reduceMotion = useReducedMotion()
 
   return (
     <div className="accordion">
@@ -124,7 +245,14 @@ export function Accordion({
         const isOpen = openIndex === index
         const panelId = `faq-panel-${index}-${item.question.replace(/\W/g, '').slice(0, 12)}`
         return (
-          <div className="accordion-item" key={item.question}>
+          <motion.div
+            className="accordion-item"
+            key={item.question}
+            initial={reduceMotion ? false : { opacity: 0, x: 18 }}
+            whileInView={reduceMotion ? undefined : { opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.48, delay: index * 0.045, ease: [0.16, 1, 0.3, 1] }}
+          >
             <h3>
               <button
                 type="button"
@@ -150,7 +278,7 @@ export function Accordion({
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </motion.div>
         )
       })}
     </div>
@@ -178,15 +306,30 @@ export function PageHero({
     <section className="page-hero">
       <Container>
         <div className={twMerge('page-hero-grid', image && 'page-hero-grid-with-image')}>
-          <Reveal className="page-hero-copy">
-            <Eyebrow>{eyebrow}</Eyebrow>
-            <h1>{title}</h1>
-            <p>{description}</p>
-            {children}
-          </Reveal>
+          <StaggerGroup className="page-hero-copy" amount={0.15}>
+            <StaggerItem>
+              <Eyebrow>{eyebrow}</Eyebrow>
+            </StaggerItem>
+            <StaggerItem>
+              <h1>{title}</h1>
+            </StaggerItem>
+            <StaggerItem>
+              <p>{description}</p>
+            </StaggerItem>
+            {children && <StaggerItem>{children}</StaggerItem>}
+          </StaggerGroup>
           {image ? (
             <Reveal className="page-hero-art" delay={0.1}>
-              <img src={image} alt={imageAlt} width="1536" height="1024" />
+              <motion.img
+                src={image}
+                alt={imageAlt}
+                width="1536"
+                height="1024"
+                initial={{ scale: 1.055 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1] }}
+              />
             </Reveal>
           ) : (
             aside && (

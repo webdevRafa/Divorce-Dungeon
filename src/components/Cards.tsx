@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from 'framer-motion'
 import {
   Crown,
   Gem,
@@ -43,17 +44,27 @@ export function CampaignCard({ campaign }: { campaign: Campaign }) {
 }
 
 export function ChampionCard({ champion }: { champion: Champion }) {
+  const reduceMotion = useReducedMotion()
+
   return (
     <article className="champion-card">
       <Link to={`/champions/${champion.slug}`} aria-label={`Meet ${champion.name}`}>
         <div className="champion-portrait">
-          <img
-            src={champion.portrait}
-            alt={`Portrait of ${champion.name}, ${champion.title}`}
-            width="576"
-            height="924"
-            loading="lazy"
-          />
+          <motion.div
+            className="champion-portrait-inner"
+            initial={reduceMotion ? false : { opacity: 0.35, scale: 1.065 }}
+            whileInView={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <img
+              src={champion.portrait}
+              alt={`Portrait of ${champion.name}, ${champion.title}`}
+              width="576"
+              height="924"
+              loading="lazy"
+            />
+          </motion.div>
         </div>
         <div className="champion-card-copy">
           <p className="card-kicker">{champion.title}</p>

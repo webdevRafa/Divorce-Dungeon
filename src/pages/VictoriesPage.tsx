@@ -1,5 +1,6 @@
 import { Archive, Coffee, FileSearch, ScrollText, Stamp } from 'lucide-react'
 import {
+  AnimatedNumber,
   ButtonLink,
   PageHero,
   Reveal,
@@ -34,7 +35,7 @@ export function VictoriesPage() {
               className={index % 2 ? 'chronicle chronicle-reverse' : 'chronicle'}
             >
               <div className="chronicle-index" aria-hidden="true">
-                <span>{String(index + 1).padStart(2, '0')}</span>
+                <AnimatedNumber end={index + 1} pad={2} delay={index * 0.06} />
                 {index % 3 === 0 ? <Coffee /> : index % 3 === 1 ? <Archive /> : <Stamp />}
               </div>
               <article>
@@ -79,14 +80,14 @@ export function VictoriesPage() {
       </Section>
 
       <section className="compact-cta">
-        <div className="mx-auto flex w-full max-w-[1240px] flex-col items-start justify-between gap-7 px-5 sm:px-7 md:flex-row md:items-center lg:px-10">
+        <Reveal className="mx-auto flex w-full max-w-[1240px] flex-col items-start justify-between gap-7 px-5 sm:px-7 md:flex-row md:items-center lg:px-10">
           <SectionHeading
             eyebrow="NEXT CHRONICLE"
             title="Your campaign will probably be less botanical."
             intro="Probably."
           />
           <ButtonLink to="/summon-counsel">Request a War Council</ButtonLink>
-        </div>
+        </Reveal>
       </section>
     </>
   )

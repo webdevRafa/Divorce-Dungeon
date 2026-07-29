@@ -44,15 +44,15 @@ export function ChampionDetailPage() {
 
       <Section className="champion-biography">
         <div className="champion-biography-grid">
-          <div>
+          <Reveal>
             <Eyebrow>THE RECORD</Eyebrow>
             <h2>A disciplined approach to complicated endings.</h2>
-          </div>
-          <div className="long-copy">
+          </Reveal>
+          <Reveal className="long-copy" delay={0.08}>
             {champion.fullBio.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
-          </div>
+          </Reveal>
         </div>
       </Section>
 
@@ -84,14 +84,14 @@ export function ChampionDetailPage() {
 
       <section className="final-cta">
         <div className="mx-auto w-full max-w-[1240px] px-5 sm:px-7 lg:px-10">
-          <div className="final-cta-panel">
+          <Reveal className="final-cta-panel">
             <Eyebrow>READY THE COUNCIL TABLE</Eyebrow>
             <h2>Bring the campaign into focus.</h2>
             <p>Start with the facts that matter. The labeled folders can come next.</p>
             <ButtonLink to="/summon-counsel">
               Request {champion.name.split(' ')[0]} for the Campaign
             </ButtonLink>
-          </div>
+          </Reveal>
         </div>
       </section>
     </>
